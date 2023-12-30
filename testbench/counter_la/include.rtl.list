@@ -9,6 +9,9 @@
 -v ../../rtl/user/sdr.v
 -v ../../rtl/user/DMA.v
 -v ../../rtl/user/FIFO.v
+-v ../../rtl/user/PE.v
+-v ../../rtl/user/SYSTOLIC.v
+-v ../../rtl/user/SYSTOLIC_DF.v
 
 ## VIP
 -v ../../vip/tbuart.v

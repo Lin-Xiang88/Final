@@ -105,6 +105,8 @@ wire [31:0] i_dram_wbs_dat;
 wire no_use_burst_valid;
 wire no_use_ack;
 
+wire [31:0]acc_out;
+
 user_proj_example mprj (
 `ifdef USE_POWER_PINS
 	.vccd1(vccd1),	// User area 1 1.8V power
@@ -214,6 +216,19 @@ DMA #(
     .acc_data_i(acc_data_i)
 
 );
+
+SYSTOLIC_DF SYSTOLIC_DF_inst(
+    .clk(wb_clk_i),
+    .rst(wb_rst_i),    
+    .acc_data_i(acc_data_i),
+    .acc_data_valid(acc_data_valid_i),
+    .func_sel(dram_fun_sel), 
+    .ACC_OUT(acc_out)
+);
+
+
+
+
 
 endmodule	// user_project_wrapper
 

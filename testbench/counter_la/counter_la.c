@@ -314,15 +314,17 @@ void main()
 	////print("\n");
 	////print("Monitor: Test 1 Passed\n\n");	// Makes simulation very long!
 	//reg_mprj_datal = 0xAB510000;
-	int *tmp = matmul();
-	reg_mprj_datal = *tmp << 16;
-	reg_mprj_datal = *(tmp+1) << 16;
-	reg_mprj_datal = *(tmp+2) << 16;
-	reg_mprj_datal = *(tmp+3) << 16;	
+	
+	// int *tmp = matmul();
+	// reg_mprj_datal = *tmp << 16;
+	// reg_mprj_datal = *(tmp+1) << 16;
+	// reg_mprj_datal = *(tmp+2) << 16;
+	// reg_mprj_datal = *(tmp+3) << 16;	
 
 	//print("\n");
 	//print("Monitor: Test 1 Passed\n\n");	// Makes simulation very long!
-	reg_mprj_datal = *(tmp+9) << 16;
+	
+	// reg_mprj_datal = *(tmp+9) << 16;
 	firPtr();
 	reg_mprj_datal = 0xAB510000;
 }

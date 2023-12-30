@@ -1,5 +1,5 @@
 # 0 "../../firmware/matmul.c"
-# 1 "/home/ubuntu/SoCLab/course-lab_d/lab-sdram/testbench/counter_la//"
+# 1 "/home/ubuntu/course-lab_D/DreamTeam/Final/testbench/counter_la//"
 # 0 "<built-in>"
 # 0 "<command-line>"
 # 1 "../../firmware/matmul.c"
@@ -77,21 +77,18 @@ typedef long long unsigned int uintmax_t;
 
 # 5 "../../firmware/matmul.h"
 volatile uint32_t *fir_ptr;
-volatile uint32_t fir_addr = 0x30000000;
+volatile uint32_t fir_addr = 0x30000306;
 volatile uint32_t *mat_ptr;
-volatile uint32_t mat_addr = 0x30100000;
+volatile uint32_t mat_addr = 0x30000678;
+# 27 "../../firmware/matmul.h"
+ int __attribute__ ( ( section ( ".adder" ) ) ) A[4*4] = {0,1,0,1,2,3,2,3,0,1,0,1,2,3,2,3
+ };
+ int __attribute__ ( ( section ( ".adder" ) ) ) B[4*4] = {1,2,5,6,3,4,7,8,9,10,13,14,11,12,15,16
+ };
+ int __attribute__ ( ( section ( ".adder" ) ) ) fir_tap[11] = {0,-10,-9,23,56,63,56,23,-9,-10,0};
 
 
- int __attribute__ ( ( section ( ".adder" ) ) ) A[4*4] = {0, 1, 2, 3,
-   0, 1, 2, 3,
-   0, 1, 2, 3,
-   0, 1, 2, 3
- };
- int __attribute__ ( ( section ( ".adder" ) ) ) B[4*4] = {1, 2, 3, 4,
-  5, 6, 7, 8,
-  9, 10, 11, 12,
-  13, 14, 15, 16
- };
+
  int result[4*4];
 # 2 "../../firmware/matmul.c" 2
 
@@ -118,11 +115,17 @@ int* __attribute__ ( ( section ( ".mprjram" ) ) ) matmul()
 void __attribute__ ( ( section ( ".mprjram" ) ) ) firPtr()
 {
  volatile uint32_t *fir_addr = (volatile uint32_t *)0x30000000;
- *fir_addr = 0x00001c3c;
- *fir_addr = 0x00100054;
- *fir_addr = 0x003c407c;
- *fir_addr = 0x143c687c;
- *fir_addr = 0x043c687c;
- *fir_addr = 0x1c3c087c;
 
+
+
+
+
+
+
+ *fir_addr = 0x404c000c;
+ *fir_addr = 0x202c505c;
+ *fir_addr = 0x606c101c;
+ *fir_addr = 0x303c707c;
+ *fir_addr = 0x404c000c;
+# 49 "../../firmware/matmul.c"
 }

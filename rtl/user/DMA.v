@@ -107,7 +107,7 @@ FIFO#(
 )fifo_inst(
     .clk(wb_clk_i),
     .rst(wb_rst_i),
-    .i_data({cpu_wbs_adr_i[20], cpu_wbs_dat_i}),
+    .i_data({cpu_wbs_adr_i[10], cpu_wbs_dat_i}),
     .write_en(i_write_en),
     .read_en(i_read_en),
     .full(o_fifo_full),
@@ -191,7 +191,8 @@ always @(*) begin
                 end_addr_w  = cpu_wbs_dat_i[7:0];
             end
             if(empty_wr) begin
-                dram_fun_sel_w = cpu_wbs_adr_i[20];
+                dram_fun_sel_w = cpu_wbs_adr_i[10];
+                
                 ins_buff_w = cpu_wbs_dat_i[31-:16];
             end
         end

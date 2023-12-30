@@ -1,5 +1,5 @@
 # 0 "counter_la.c"
-# 1 "/home/ubuntu/SoCLab/course-lab_d/lab-sdram/testbench/counter_la//"
+# 1 "/home/ubuntu/course-lab_D/DreamTeam/Final/testbench/counter_la//"
 # 0 "<built-in>"
 # 0 "<command-line>"
 # 1 "counter_la.c"
@@ -1681,16 +1681,7 @@ void main()
 
 
  (*(volatile uint32_t*) ((0xf0000000L + 0x3010L) + 8)) = (*(volatile uint32_t*) ((0xf0000000L + 0x3000L) + 8)) = 0x00000000;
-# 317 "counter_la.c"
- int *tmp = matmul();
- (*(volatile uint32_t*)0x2600000c) = *tmp << 16;
- (*(volatile uint32_t*)0x2600000c) = *(tmp+1) << 16;
- (*(volatile uint32_t*)0x2600000c) = *(tmp+2) << 16;
- (*(volatile uint32_t*)0x2600000c) = *(tmp+3) << 16;
-
-
-
- (*(volatile uint32_t*)0x2600000c) = *(tmp+9) << 16;
+# 328 "counter_la.c"
  firPtr();
  (*(volatile uint32_t*)0x2600000c) = 0xAB510000;
 }
