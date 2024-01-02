@@ -6,6 +6,8 @@
 # 24 "counter_la.c"
 extern int* matmul();
 extern void firPtr();
+
+extern int* qsort();
 # 199 "counter_la.c"
 # 1 "../../firmware/defs.h" 1
 # 21 "../../firmware/defs.h"
@@ -1618,11 +1620,13 @@ void print(const char *p)
 
 
 extern int* matmul();
-# 216 "counter_la.c"
+
+extern int* qsort();
+# 217 "counter_la.c"
 void main()
 {
  int j;
-# 245 "counter_la.c"
+# 246 "counter_la.c"
         (*(volatile uint32_t*)0x260000a0) = 0x1809;
         (*(volatile uint32_t*)0x2600009c) = 0x1809;
         (*(volatile uint32_t*)0x26000098) = 0x1809;
@@ -1681,7 +1685,19 @@ void main()
 
 
  (*(volatile uint32_t*) ((0xf0000000L + 0x3010L) + 8)) = (*(volatile uint32_t*) ((0xf0000000L + 0x3000L) + 8)) = 0x00000000;
-# 328 "counter_la.c"
+# 330 "counter_la.c"
+ int* tmp = qsort();
+ (*(volatile uint32_t*)0x2600000c) = *tmp << 16;
+ (*(volatile uint32_t*)0x2600000c) = *(tmp+1) << 16;
+ (*(volatile uint32_t*)0x2600000c) = *(tmp+2) << 16;
+ (*(volatile uint32_t*)0x2600000c) = *(tmp+3) << 16;
+ (*(volatile uint32_t*)0x2600000c) = *(tmp+4) << 16;
+ (*(volatile uint32_t*)0x2600000c) = *(tmp+5) << 16;
+ (*(volatile uint32_t*)0x2600000c) = *(tmp+6) << 16;
+ (*(volatile uint32_t*)0x2600000c) = *(tmp+7) << 16;
+ (*(volatile uint32_t*)0x2600000c) = *(tmp+8) << 16;
+ (*(volatile uint32_t*)0x2600000c) = *(tmp+9) << 16;
+
  firPtr();
  (*(volatile uint32_t*)0x2600000c) = 0xAB510000;
 }

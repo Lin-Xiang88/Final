@@ -73,59 +73,37 @@ typedef long long int intmax_t;
 typedef long long unsigned int uintmax_t;
 # 12 "/opt/riscv/lib/gcc/riscv32-unknown-elf/12.1.0/include/stdint.h" 2 3 4
 # 4 "../../firmware/matmul.h" 2
+# 32 "../../firmware/matmul.h"
+ 
+# 32 "../../firmware/matmul.h"
+int __attribute__ ( ( section ( ".matmul" ) ) ) AB[2*4*4] = {0,1,0,1,1,2,5,6,3,4,7,8,0,1,0,1,2,3,2,3,
+                  9,10,13,14,11,12,15,16,2,3,2,3
+  };
 
 
-# 5 "../../firmware/matmul.h"
-volatile uint32_t *fir_ptr;
-volatile uint32_t fir_addr = 0x30000306;
-volatile uint32_t *mat_ptr;
-volatile uint32_t mat_addr = 0x30000678;
-# 27 "../../firmware/matmul.h"
- int __attribute__ ( ( section ( ".adder" ) ) ) A[4*4] = {0,1,0,1,2,3,2,3,0,1,0,1,2,3,2,3
- };
- int __attribute__ ( ( section ( ".adder" ) ) ) B[4*4] = {1,2,5,6,3,4,7,8,9,10,13,14,11,12,15,16
- };
- int __attribute__ ( ( section ( ".adder" ) ) ) fir_tap[11] = {0,-10,-9,23,56,63,56,23,-9,-10,0};
+ int __attribute__ ( ( section ( ".matmul" ) ) ) fir_tap[11] = {0,-10,-9,23,56,63,56,23,-9,-10,0};
 
+ int __attribute__ ( ( section ( ".fir" ) ) ) fir_data[64] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64};
 
 
  int result[4*4];
 # 2 "../../firmware/matmul.c" 2
+# 1 "../../firmware/dma.h" 1
 
-int* __attribute__ ( ( section ( ".mprjram" ) ) ) matmul()
-{
- int i=0;
- int j;
- int k;
- int sum;
- int kk;
- unsigned int count = 0;
- for (i=0; i<4; i++){
-  for (j=0; j<4; j++){
-   sum = 0;
-   for(k = 0;k<4;k++)
-    sum += A[(i*4) + k] * B[(k*4) + j];
-   result[(i*4) + j] = sum;
-  }
- }
 
- return result;
-}
 
+
+volatile uint32_t *inst_ptr;
+volatile uint32_t inst_addr = 0x30000678;
+# 3 "../../firmware/matmul.c" 2
+# 23 "../../firmware/matmul.c"
 void __attribute__ ( ( section ( ".mprjram" ) ) ) firPtr()
 {
- volatile uint32_t *fir_addr = (volatile uint32_t *)0x30000000;
+ inst_ptr = (volatile uint32_t *)inst_addr;
+# 34 "../../firmware/matmul.c"
+ *inst_ptr =0x00032ca8;
+ *inst_ptr =0x00030000;
 
-
-
-
-
-
-
- *fir_addr = 0x404c000c;
- *fir_addr = 0x202c505c;
- *fir_addr = 0x606c101c;
- *fir_addr = 0x303c707c;
- *fir_addr = 0x404c000c;
-# 49 "../../firmware/matmul.c"
+ *inst_ptr =0x00070028;
+ *inst_ptr =0x000600fc;
 }

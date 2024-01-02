@@ -7,12 +7,13 @@ module PE #(
     input  [DATA_WIDTH-1:0] i_tap,
     output [DATA_WIDTH-1:0] o_data_t,
     output [DATA_WIDTH-1:0] o_tap_t,
-    output [DATA_WIDTH-1:0] o_accumulate
+    output [DATA_WIDTH-1:0] o_accumulate,
+    output [DATA_WIDTH-1:0] o_mul
 );
 
-reg [DATA_WIDTH-1:0] temp_data;
-reg [DATA_WIDTH-1:0] temp_tap;
-reg [DATA_WIDTH-1:0] o_accumulate_w, o_accumulate_r;
+reg signed [DATA_WIDTH-1:0] temp_data;
+reg signed [DATA_WIDTH-1:0] temp_tap;
+reg signed [DATA_WIDTH-1:0] o_accumulate_w, o_accumulate_r;
 
 assign o_data_t = temp_data;
 assign o_tap_t  = temp_tap;
@@ -28,8 +29,11 @@ always @(posedge clk or posedge rst) begin
     end
 end
 
+
+assign  o_mul = temp_data * temp_tap;
+
 always @(*) begin
-    o_accumulate_w = temp_data * temp_tap + o_accumulate_r;
+    o_accumulate_w = o_mul + o_accumulate_r;
 end
 
 always @(posedge clk or posedge rst) begin

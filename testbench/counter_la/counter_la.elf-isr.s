@@ -366,8 +366,6 @@ flag:
 	.section	.debug_line,"",@progbits
 .Ldebug_line0:
 	.section	.debug_str,"MS",@progbits,1
-.LASF13:
-	.string	"GNU C17 12.1.0 -mabi=ilp32 -mtune=rocket -misa-spec=2.2 -march=rv32i -g -O1 -ffreestanding"
 .LASF6:
 	.string	"unsigned char"
 .LASF10:
@@ -380,6 +378,8 @@ flag:
 	.string	"flag"
 .LASF12:
 	.string	"unsigned int"
+.LASF13:
+	.string	"GNU C17 12.1.0 -mabi=ilp32 -mtune=rocket -misa-spec=2.2 -march=rv32i -g -Os -ffreestanding"
 .LASF11:
 	.string	"long long unsigned int"
 .LASF5:

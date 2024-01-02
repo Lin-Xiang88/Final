@@ -35,7 +35,7 @@ parameter idle          = 4'b0000;
 parameter mm_data_in    = 4'b0001;
 parameter mm_opr        = 4'b0010;
 parameter mm_finish     = 4'b1111;
-parameter fir_opr       = 4'b1000 ;
+parameter fir_opr       = 4'b1000;
 
 wire [31:0]o_data[3:0];
 //MM
@@ -55,6 +55,10 @@ wire [31:0]MM_OUT_t12;
 wire [31:0]MM_OUT_t13;
 wire [31:0]MM_OUT_t14;
 wire [31:0]MM_OUT_t15;
+
+wire [351:0]i_fir_data;
+wire [351:0]i_fir_tap;
+wire [31:0]o_fir_data;
 
 reg [31:0]MM_OUT[15:0];
 reg [31:0]mm_buffer[11:0];
@@ -98,6 +102,9 @@ assign MM_OUT_t13=MM_OUT[13];
 assign MM_OUT_t14=MM_OUT[14];
 assign MM_OUT_t15=MM_OUT[15];
 
+assign i_fir_data =  {fir_data[10],fir_data[9],fir_data[8],fir_data[7],fir_data[6],fir_data[5],fir_data[4],fir_data[3],fir_data[2],fir_data[1],fir_data[0]};
+assign i_fir_tap = {fir_tap[10],fir_tap[9],fir_tap[8],fir_tap[7],fir_tap[6],fir_tap[5],fir_tap[4],fir_tap[3],fir_tap[2],fir_tap[1],fir_tap[0]};
+
 always@(posedge clk or posedge rst)begin
     if(rst) ps<=idle;
     else begin
@@ -120,7 +127,7 @@ always@(posedge clk or posedge rst)begin
                 else ps<=mm_opr;
             end      
             fir_opr:begin
-                if(fir_opr_cnt==7)ps<=idle;
+                if(fir_opr_cnt==4)ps<=idle;
                 else ps<=fir_opr;
             end
         endcase
@@ -141,7 +148,10 @@ always@(posedge clk or posedge rst)begin
     if(rst)    mm_opr_cnt<=0; 
     else begin 
         if(mm_cy_cnt==8 && mm_opr_cnt==6)   mm_opr_cnt<=0;
-        else if(ps == mm_opr)   mm_opr_cnt<=mm_opr_cnt+1;
+        else if(ps == mm_opr)   begin
+            if(mm_opr_cnt==7)mm_opr_cnt<=7;
+            else mm_opr_cnt<=mm_opr_cnt+1;
+        end
         else mm_opr_cnt<=0;
     end    
 end    
@@ -199,7 +209,7 @@ always@(posedge clk or posedge rst)begin
     if(rst)mm_out_cnt<=0;
     else begin
         if(mm_out_cnt==16)mm_out_cnt<=16;
-        else if(!func_sel && mm_cy_cnt==9)mm_out_cnt<=mm_out_cnt+1;
+        else if(mm_cy_cnt==9)mm_out_cnt<=mm_out_cnt+1;
         else mm_out_cnt<=0;
     end
 end
@@ -270,7 +280,9 @@ always@(posedge clk or posedge rst)begin
 end
 
 always@*begin
-    if(mm_cy_cnt==9 && !func_sel)begin
+    if(func_sel && fir_opr_cnt>1)
+        ACC_OUT = o_fir_data;
+    else if(mm_cy_cnt==9)begin
         case(mm_out_cnt)
             0:ACC_OUT = MM_OUT[0];
             1:ACC_OUT = MM_OUT[1];
@@ -290,8 +302,6 @@ always@*begin
             15:ACC_OUT = MM_OUT[15];        
         endcase 
     end
-    else if(fir_opr_cnt==5 && func_sel)
-        ACC_OUT = o_data[0]+o_data[1]+o_data[2]+o_data[3];
 end
 //=======================================================================================================
 //SYSTOLIC input
@@ -324,78 +334,33 @@ always@(posedge clk or posedge rst)begin
                 i_tap_11<=0;
                 i_tap_12<=0;  
             end
-        end 
-        else if(ps==fir_opr)begin
-            if(fir_opr_cnt==0)begin
-                i_data_11       <=  fir_data[10];
-                i_fir_data_12   <=  fir_data[9];
-                i_data_21       <=  fir_data[8];
-                i_fir_data_22   <=  fir_data[7];
-                i_tap_11        <=  fir_tap[0];
-                i_tap_12        <=  fir_tap[1];
-                i_fir_tap_21    <=  fir_tap[2];
-                i_fir_tap_22    <=  fir_tap[3];
-            end else if(fir_opr_cnt==1)begin
-                i_data_11       <=  fir_data[6];
-                i_fir_data_12   <=  fir_data[5];
-                i_data_21       <=  fir_data[4];
-                i_fir_data_22   <=  fir_data[3];
-                i_tap_11        <=  fir_tap[4];
-                i_tap_12        <=  fir_tap[5];
-                i_fir_tap_21    <=  fir_tap[6];
-                i_fir_tap_22    <=  fir_tap[7];
-            end else if(fir_opr_cnt==2)begin
-                i_data_11       <=  fir_data[2];
-                i_fir_data_12   <=  fir_data[1];
-                i_data_21       <=  fir_data[0];
-                i_fir_data_22   <=  0;
-                i_tap_11        <=  fir_tap[8];
-                i_tap_12        <=  fir_tap[9];
-                i_fir_tap_21    <=  fir_tap[10];
-                i_fir_tap_22    <=  0;           
-            end
-            else begin
-                i_data_11       <=  0;
-                i_fir_data_12   <=  0;
-                i_data_21       <=  0;
-                i_fir_data_22   <=  0;
-                i_tap_11        <=  0;
-                i_tap_12        <=  0;
-                i_fir_tap_21    <=  0;
-                i_fir_tap_22    <=  0;
-            end    
-        end        
+        end       
         else begin
             i_data_11<=0;
             i_data_21<=0;
             i_tap_11<=0;
-            i_tap_12<=0;        
-            i_fir_data_12<=0;
-            i_fir_data_22<=0;
-            i_fir_tap_21<=0;
-            i_fir_tap_22<=0;               
+            i_tap_12<=0;                    
         end    
     end
 end
 
-SYSTOLIC #(
+SYSTOLIC_11PE #(
     .DATA_WIDTH(DATA_WIDTH)
-)SYSTOLIC_DF_INST(
+)SYSTOLIC_11PE_INST(
     .clk(clk),
     .rst(systolic_rst),
     .func_sel(func_sel),                   // 0 -> matrix multiplication, 1 -> fir 
     .i_data_11(i_data_11), 
     .i_data_21(i_data_21),
-    .i_fir_data_12(i_fir_data_12),
-    .i_fir_data_22(i_fir_data_22),
     .i_tap_11(i_tap_11),
     .i_tap_12(i_tap_12),
-    .i_fir_tap_21(i_fir_tap_21),
-    .i_fir_tap_22(i_fir_tap_22),
+    .i_fir_data(i_fir_data),
+    .i_fir_tap(i_fir_tap),
     .o_data_11(o_data[0]),
     .o_data_12(o_data[1]),
     .o_data_21(o_data[2]),
-    .o_data_22(o_data[3])
+    .o_data_22(o_data[3]),
+    .o_fir_data(o_fir_data)
 );
 
 endmodule

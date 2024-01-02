@@ -2,10 +2,6 @@
 #define _MATMUL_H
 #include <stdint.h>
 
-volatile uint32_t *fir_ptr;
-volatile uint32_t fir_addr = 0x30000306;
-volatile uint32_t *mat_ptr;
-volatile uint32_t mat_addr = 0x30000678;
 #define SIZE 4
 
 // #define a[SIZE*SIZE]  {0, 1, 2, 3,0, 1, 2, 3,0, 1, 2, 3,0, 1, 2, 3};
@@ -24,13 +20,24 @@ volatile uint32_t mat_addr = 0x30000678;
 // 	};
 // 	int result[SIZE*SIZE];
 
-	int __attribute__ ( ( section ( ".adder" ) ) ) A[SIZE*SIZE] = {0,1,0,1,2,3,2,3,0,1,0,1,2,3,2,3	
-	};
-	int __attribute__ ( ( section ( ".adder" ) ) ) B[SIZE*SIZE] = {1,2,5,6,3,4,7,8,9,10,13,14,11,12,15,16
-	};
-	int __attribute__ ( ( section (	".adder" ) ) ) fir_tap[11] = {0,-10,-9,23,56,63,56,23,-9,-10,0};
+	// int __attribute__ ( ( section ( ".matmul" ) ) ) A[SIZE*SIZE] = {0,1,0,1,2,3,2,3,0,1,0,1,2,3,2,3	
+	// };
+	// int __attribute__ ( ( section ( ".matmul" ) ) ) B[SIZE*SIZE] = {1,2,5,6,3,4,7,8,9,10,13,14,11,12,15,16
+	// };
+
+	// int __attribute__ ( ( section ( ".matmul" ) ) ) AB[2*SIZE*SIZE] = {0,1,0,1,2,3,2,3,0,1,0,1,2,3,2,3, 
+	// 																1,2,5,6,3,4,7,8,9,10,13,14,11,12,15,16
+	// };
+
+	int __attribute__ ( ( section ( ".matmul" ) ) ) AB[2*SIZE*SIZE] = {0,1,0,1,1,2,5,6,3,4,7,8,0,1,0,1,2,3,2,3, 
+																		9,10,13,14,11,12,15,16,2,3,2,3
+		};
+
+
+	int __attribute__ ( ( section (	".matmul" ) ) ) fir_tap[11] = {0,-10,-9,23,56,63,56,23,-9,-10,0};
     
-	// int __attribute__ ( ( section (	".adder" ) ) ) fir_data[11] = {
+	int __attribute__ ( ( section (	".fir" ) ) ) fir_data[64] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64};
+
 
 	int result[SIZE*SIZE];
 
