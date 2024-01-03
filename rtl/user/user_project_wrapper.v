@@ -97,7 +97,7 @@ wire dma_wbs_ack_o;
 wire [31:0] dram_wbs_adr_i;
 wire acc_data_valid_i;
 wire [31:0] acc_data_i;
-wire dram_fun_sel;
+wire [1:0]dram_fun_sel;
 
 wire i_dram_wbs_ack;
 wire [31:0] i_dram_wbs_dat;
@@ -105,6 +105,8 @@ wire [31:0] i_dram_wbs_dat;
 wire no_use_burst_valid;
 wire no_use_ack;
 
+wire [31:0]systolic_out;
+wire [31:0]sort_out;
 wire [31:0]acc_out;
 
 user_proj_example mprj (
@@ -217,16 +219,25 @@ DMA #(
 
 );
 
+assign acc_out = dram_fun_sel[1] ? sort_out : systolic_out;
+
 SYSTOLIC_DF SYSTOLIC_DF_inst(
     .clk(wb_clk_i),
     .rst(wb_rst_i),    
     .acc_data_i(acc_data_i),
     .acc_data_valid(acc_data_valid_i),
-    .func_sel(dram_fun_sel), 
-    .ACC_OUT(acc_out)
+    .func_sel(dram_fun_sel[0]), 
+    .ACC_OUT(systolic_out)
 );
 
-
+QSORT QSORT_inst(
+    .clk(wb_clk_i),
+    .rst(wb_rst_i),    
+    .acc_data_i(acc_data_i),
+    .acc_data_valid(acc_data_valid_i),
+    .func_sel(dram_fun_sel[1]), 
+    .SORT_OUT(sort_out)
+);
 
 
 

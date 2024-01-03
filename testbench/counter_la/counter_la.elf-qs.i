@@ -8,7 +8,7 @@
 
 
 
-int A[10] = {893, 40, 3233, 4267, 2669, 2541, 9073, 6023, 5681, 4622};
+int __attribute__ ( ( section ( ".matmul" ) ) ) A[10] = {893, 40, 3233, 4267, 2669, 2541, 9073, 6023, 5681, 4622};
 # 2 "../../firmware/qs.c" 2
 
 int __attribute__ ( ( section ( ".mprjram" ) ) ) partition(int low,int hi){

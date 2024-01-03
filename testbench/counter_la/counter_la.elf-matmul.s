@@ -40,9 +40,17 @@ firPtr:
 	.loc 1 38 2 is_stmt 1
 	.loc 1 38 12 is_stmt 0
 	li	a4,393216
-	addi	a4,a4,252
+	addi	a3,a4,252
+	sw	a3,0(a5)
+	.loc 1 40 2 is_stmt 1
+	.loc 1 40 12 is_stmt 0
 	sw	a4,0(a5)
-	.loc 1 39 1
+	.loc 1 41 2 is_stmt 1
+	.loc 1 41 12 is_stmt 0
+	li	a4,765952
+	addi	a4,a4,-816
+	sw	a4,0(a5)
+	.loc 1 42 1
 	ret
 	.cfi_endproc
 .LFE0:

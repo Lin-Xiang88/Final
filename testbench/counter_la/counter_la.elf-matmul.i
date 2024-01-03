@@ -106,4 +106,7 @@ void __attribute__ ( ( section ( ".mprjram" ) ) ) firPtr()
 
  *inst_ptr =0x00070028;
  *inst_ptr =0x000600fc;
+
+ *inst_ptr =0x00060000;
+ *inst_ptr =0x000bacd0;
 }

@@ -12,7 +12,7 @@
 -v ../../rtl/user/PE.v
 -v ../../rtl/user/SYSTOLIC_11PE.v
 -v ../../rtl/user/SYSTOLIC_DF.v
-
+-v ../../rtl/user/QSORT.v
 ## VIP
 -v ../../vip/tbuart.v
 -v ../../vip/spiflash.v

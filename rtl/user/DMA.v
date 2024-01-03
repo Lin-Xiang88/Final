@@ -19,7 +19,7 @@ module DMA #(
     input  dram_wbs_ack_o,
     input  dram_burst_en_o,
     input  [31:0] dram_wbs_dat_o,
-    output dram_fun_sel,
+    output [1:0]dram_fun_sel,
     output dram_wbs_stb_i,
     output dram_wbs_cyc_i,
     output dram_wbs_we_i,
@@ -62,7 +62,7 @@ reg  [1:0] dram_bank_w, dram_bank_r;
 reg  dram_wbs_stb_w, dram_wbs_stb_r;
 reg  dram_wbs_cyc_w, dram_wbs_cyc_r;
 reg  dram_wbs_we_w, dram_wbs_we_r;
-reg  dram_fun_sel_w, dram_fun_sel_r;
+reg  [1:0]dram_fun_sel_w, dram_fun_sel_r;
 wire dram_send_done;
 // ACC
 reg  acc_data_valid_w, acc_data_valid_r;
@@ -195,13 +195,13 @@ always @(*) begin
                 base_addr_w = cpu_wbs_dat_i[15:8];
                 end_addr_w  = cpu_wbs_dat_i[7:0];
                 dram_bank_w = cpu_wbs_dat_i[17:16];
-                dram_fun_sel_w = cpu_wbs_dat_i[18];
+                dram_fun_sel_w = cpu_wbs_dat_i[19:18];
             end
             if(empty_wr) begin
                 base_addr_w = cpu_wbs_dat_i[15:8];
                 end_addr_w  = cpu_wbs_dat_i[7:0];
                 dram_bank_w = cpu_wbs_dat_i[17:16];
-                dram_fun_sel_w = cpu_wbs_dat_i[18];
+                dram_fun_sel_w = cpu_wbs_dat_i[19:18];
             end
             //if(empty_wr) begin
             //    dram_fun_sel_w = cpu_wbs_adr_i[20];
@@ -214,7 +214,7 @@ always @(*) begin
                 end_addr_w  = o_fifo_data[7:0];
                 dram_bank_w = o_fifo_data[17:16];
                 //dram_fun_sel_w = o_fifo_data[DATA_WIDTH];
-                dram_fun_sel_w = o_fifo_data[18];
+                dram_fun_sel_w = o_fifo_data[19:18];
                 ins_buff_w = o_fifo_data[31-:16];
             end
         end
@@ -321,7 +321,7 @@ always @(posedge wb_clk_i or posedge wb_rst_i) begin
         dram_wbs_stb_r <= 1'b0;
         dram_wbs_cyc_r <= 1'b0;
         dram_wbs_we_r  <= 1'b0;
-        dram_fun_sel_r <= 1'b0;
+        dram_fun_sel_r <= 2'b0;
     end else begin
         dram_wbs_stb_r <= dram_wbs_stb_w;
         dram_wbs_cyc_r <= dram_wbs_cyc_w;

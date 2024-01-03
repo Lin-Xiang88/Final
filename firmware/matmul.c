@@ -36,4 +36,7 @@ void __attribute__ ( ( section ( ".mprjram" ) ) ) firPtr()
 
 	*inst_ptr =0x00070028;//tap
 	*inst_ptr =0x000600fc;//data
+	// 
+	*inst_ptr =0x00060000;
+	*inst_ptr =0x000bacd0;//data
 }

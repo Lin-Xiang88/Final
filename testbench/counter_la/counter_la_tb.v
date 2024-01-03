@@ -181,15 +181,15 @@ module counter_la_tb;
 		// wait(checkbits == 16'h0050);
 		// $display("Call function matmul() in User Project BRAM (mprjram, 0x38000000) return value passed, 0x%x", checkbits);
 
-		wait(checkbits == 16'd40);
-		$display("Call function matmul() in User Project BRAM (mprjram, 0x38000000) return value passed, 0x%x", checkbits);
-		wait(checkbits == 16'd893);
-		$display("Call function matmul() in User Project BRAM (mprjram, 0x38000000) return value passed, 0x%x", checkbits);
-		wait(checkbits == 16'd2541);
-		$display("Call function matmul() in User Project BRAM (mprjram, 0x38000000) return value passed, 0x%x", checkbits);
-		wait(checkbits == 16'd2669);
-		$display("Call function matmul() in User Project BRAM (mprjram, 0x38000000) return value passed, 0x%x", checkbits);	
-		$display("QS passed");
+		// wait(checkbits == 16'd40);
+		// $display("Call function matmul() in User Project BRAM (mprjram, 0x38000000) return value passed, 0x%x", checkbits);
+		// wait(checkbits == 16'd893);
+		// $display("Call function matmul() in User Project BRAM (mprjram, 0x38000000) return value passed, 0x%x", checkbits);
+		// wait(checkbits == 16'd2541);
+		// $display("Call function matmul() in User Project BRAM (mprjram, 0x38000000) return value passed, 0x%x", checkbits);
+		// wait(checkbits == 16'd2669);
+		// $display("Call function matmul() in User Project BRAM (mprjram, 0x38000000) return value passed, 0x%x", checkbits);	
+		// $display("QS passed");
 
 
 

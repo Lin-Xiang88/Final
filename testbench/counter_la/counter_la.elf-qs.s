@@ -194,7 +194,7 @@ qsort:
 .LFE2:
 	.size	qsort, .-qsort
 	.globl	A
-	.data
+	.section	.matmul,"aw"
 	.align	2
 	.set	.LANCHOR0,. + 0
 	.type	A, @object
@@ -247,7 +247,7 @@ A:
 	.string	"A"
 	.byte	0x2
 	.byte	0x5
-	.byte	0x5
+	.byte	0x31
 	.4byte	0x26
 	.byte	0x5
 	.byte	0x3

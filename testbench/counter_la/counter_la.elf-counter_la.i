@@ -1685,19 +1685,7 @@ void main()
 
 
  (*(volatile uint32_t*) ((0xf0000000L + 0x3010L) + 8)) = (*(volatile uint32_t*) ((0xf0000000L + 0x3000L) + 8)) = 0x00000000;
-# 330 "counter_la.c"
- int* tmp = qsort();
- (*(volatile uint32_t*)0x2600000c) = *tmp << 16;
- (*(volatile uint32_t*)0x2600000c) = *(tmp+1) << 16;
- (*(volatile uint32_t*)0x2600000c) = *(tmp+2) << 16;
- (*(volatile uint32_t*)0x2600000c) = *(tmp+3) << 16;
- (*(volatile uint32_t*)0x2600000c) = *(tmp+4) << 16;
- (*(volatile uint32_t*)0x2600000c) = *(tmp+5) << 16;
- (*(volatile uint32_t*)0x2600000c) = *(tmp+6) << 16;
- (*(volatile uint32_t*)0x2600000c) = *(tmp+7) << 16;
- (*(volatile uint32_t*)0x2600000c) = *(tmp+8) << 16;
- (*(volatile uint32_t*)0x2600000c) = *(tmp+9) << 16;
-
+# 342 "counter_la.c"
  firPtr();
  (*(volatile uint32_t*)0x2600000c) = 0xAB510000;
 }
